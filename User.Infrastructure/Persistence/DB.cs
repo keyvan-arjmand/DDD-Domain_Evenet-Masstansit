@@ -29,7 +29,7 @@ namespace User.Infrastructure.Persistence
         public DbSet<Domain.Entities.User> Users { get; set; }
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            await _mediator.DispatchDomainEvents(this);
+            //await _mediator.DispatchDomainEvents(this);
 
             return await base.SaveChangesAsync(cancellationToken);
         }

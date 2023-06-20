@@ -1,14 +1,8 @@
 ﻿using MassTransit;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using User.Application.Contracts;
 using User.Domain.Event;
-using User.Infrastructure.Persistence;
 
-namespace User.Infrastructure.Messaging
+namespace User.Application.Messaging
 {
     public class UserToDeleteConsumer : IConsumer<UserDeletedDomainEvent>
     {

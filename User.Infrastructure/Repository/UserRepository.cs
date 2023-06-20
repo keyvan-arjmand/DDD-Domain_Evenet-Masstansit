@@ -14,7 +14,7 @@ using User.Infrastructure.Persistence;
 
 namespace User.Infrastructure.Repository
 {
-    public class UserRepository : IRepository<Domain.Entities.User>
+    public class UserRepository /*: IRepository<Domain.Entities.User>*/
     {
         private readonly IMediator _mediator;
         private readonly IMongoCollection<Domain.Entities.User> _collection;
@@ -48,16 +48,16 @@ namespace User.Infrastructure.Repository
             return await _collection.Find(c => true).ToListAsync();
         }
 
-        public Task<Domain.Entities.User> GetByIdAsync(int id)
-        {
-            return _collection.Find(c => c.Id == id).FirstOrDefaultAsync();
-        }
+        //public Task<Domain.Entities.User> GetByIdAsync(int id)
+        //{
+        //    return _collection.Find(c => c.Id == id).FirstOrDefaultAsync();
+        //}
 
-        public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
-        {
-            await _mediator.DispatchDomainEvents(_db);
-            await _db.SaveChangesAsync();
-        }
+        //public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
+        //{
+        //    await _mediator.DispatchDomainEvents(_db);
+        //    await _db.SaveChangesAsync();
+        //}
 
         public Task UpdateAsync(Domain.Entities.User entity)
         {

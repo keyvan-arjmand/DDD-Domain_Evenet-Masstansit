@@ -4,29 +4,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using User.Domain.Contracs;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace User.Domain.Common
 {
     public abstract class EntityBase 
     {
-        private List<BaseEvent> _domainEvents;
-        public List<BaseEvent> DomainEvents => _domainEvents;
+        [BsonId]
+        public ObjectId Id { get; set; }
 
-        public void RaiseDomainEvent(BaseEvent eventItem)
-        {
-            _domainEvents = _domainEvents ?? new List<BaseEvent>();
-            _domainEvents.Add(eventItem);
-        }
-
-        public void RemoveDomainEvent(BaseEvent eventItem)
-        {
-            _domainEvents?.Remove(eventItem);
-        }
-        public void ClearDomainEvents()
-        {
-            _domainEvents.Clear();
-        }
-       
     }
 }

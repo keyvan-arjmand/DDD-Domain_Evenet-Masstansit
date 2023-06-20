@@ -1,18 +1,19 @@
 ﻿using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 using User.Application.Contracts;
 using User.Application.Services.Command;
 using User.Application.Services.Models;
 using User.Application.Services.Query;
-using User.Domain.Contracs;
 using User.Domain.Entities;
 using User.Domain.Event;
+using User.Domain.ValueObjects;
 
 namespace User.Controller
 {
-    [ApiController]
     [Route("api/[controller]")]
+    [ApiController]
     public class UserController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -26,42 +27,22 @@ namespace User.Controller
             _bus = bus;
         }
         [HttpPost]
-        public async Task<ActionResult> Post(UserDto model)
+        public async Task<ActionResult> PostUser(CreateUserCommand model)
         {
-            var user = new Domain.Entities.User
-            {
-                LastName = model.LastName,
-                Name = model.Name,
-                Id = model.Id,
-                PassWord = model.PassWord,
-                PhoneNumber = model.PhoneNumber,
-                UserName = model.UserName,
-            };
-            var message = UserMap.CreateMap(user);
-            await _bus.Publish(message);
+            await _mediator.Send(model);
             return Ok();
         }
         [HttpPut]
-        public async Task<ActionResult> Put(UserDto model)
+        public async Task<ActionResult> Put(UpdateUserCommand model)
         {
-            var user = new Domain.Entities.User
-            {
-                LastName = model.LastName,
-                Name = model.Name,
-                Id = model.Id,
-                PassWord = model.PassWord,
-                PhoneNumber = model.PhoneNumber,
-                UserName = model.UserName,
-            };
-            var message = UserMap.DeleteMap(user);
-            await _bus.Publish(message);
+            await _mediator.Send(model);
             return Ok();
         }
-        [HttpGet]
-        public async Task<List<UserDto>> GetAll()
-        {
-            return await _mediator.Send(new GetAllUsersCommand());
-        }
+        //[HttpGet]
+        //public async Task<List<UserDto>> GetAll()
+        //{
+        //    return await _mediator.Send(new GetAllUsersCommand());
+        //}
         [HttpGet("{id}")]
         public async Task<UserDto> GetById(int id)
         {
@@ -72,12 +53,11 @@ namespace User.Controller
 
         }
         [HttpDelete]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<ActionResult> Delete(ObjectId id)
         {
-            var user = new Domain.Entities.User { Id = id };
-            var message = UserMap.DeleteMap(user);
-            await _bus.Publish(message);
+            await _mediator.Send(new DeleteUserCommand { Id = id });
             return Ok();
         }
+
     }
 }

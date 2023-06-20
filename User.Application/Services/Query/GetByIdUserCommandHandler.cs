@@ -23,9 +23,10 @@ namespace User.Application.Services.Query
 
         public async Task<UserDto> Handle(GetByIdUserCommand request, CancellationToken cancellationToken)
         {
-            var result = await _Service.GetByIdAsync(request.Id);
-            return await Task.FromResult(
-                _mapper.Map<Domain.Entities.User, UserDto>(result));
+            //var result = await _Service.GetByIdAsync(request.Id);
+            //return await Task.FromResult(
+            //    _mapper.Map<Domain.Entities.User, UserDto>(result));
+            return new UserDto();
         }
     }
 }

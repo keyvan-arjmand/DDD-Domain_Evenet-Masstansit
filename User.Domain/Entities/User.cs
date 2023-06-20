@@ -6,17 +6,31 @@ using System.Text;
 using System.Threading.Tasks;
 using User.Domain.Common;
 using User.Domain.Event;
+using User.Domain.ValueObjects;
 
 namespace User.Domain.Entities
 {
-    public class User : EntityBase
+    public class User : AggregateRoot
     {
-        public int Id { get; set; }
-        public int PhoneNumber { get; set; }
-        public string Name { get; set; }
-        public string LastName { get; set; }
-        public string UserName { get; set; }
-        public string PassWord { get; set; }
+        public User()
+        {
+        }
+        public User(PhoneNumber phoneNumber, string name, string lastName, string userName, string passWord)
+        {
+            PhoneNumber = phoneNumber;
+            Name = name;
+            LastName = lastName;
+            UserName = userName;
+            PassWord = passWord;
+        }
+
+        public PhoneNumber PhoneNumber { get; set; }
+        public string? Name { get; set; }
+        public string? LastName { get; set; }
+        public string? UserName { get; set; }
+        public string? PassWord { get; set; }
+        public UserDetails Details { get; set; }
+     
 
     }
 }

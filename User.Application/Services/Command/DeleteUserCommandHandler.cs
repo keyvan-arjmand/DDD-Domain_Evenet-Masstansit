@@ -26,10 +26,12 @@ namespace User.Application.Services.Command
 
         public async Task Handle(DeleteUserCommand request, CancellationToken cancellationToken)
         {
-            var user = await _Service.GetByIdAsync(request.Id);
-            //user.AddDomainEvent(new UserCreatedDomainEvent(user));
-            await _Service.DeleteAsync(user);
-            await _Service.SaveChangesAsync();
+            Domain.Entities.User user = new Domain.Entities.User();
+
+            user.AddDomainEvent(new UserDeletedDomainEvent
+            {
+                Id = request.Id
+            });
         }
     }
 }
